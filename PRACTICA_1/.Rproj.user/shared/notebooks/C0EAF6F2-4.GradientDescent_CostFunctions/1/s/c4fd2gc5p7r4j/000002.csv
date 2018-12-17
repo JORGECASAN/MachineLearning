@@ -1,0 +1,4 @@
+"0","#Load data"
+"0","data <- read.csv(""data/4_1_data.csv"")"
+"0","#Create plot"
+"0","plot(data$score.1, data$score.2, col = as.factor(data$label), xlab = ""Score-1"", ylab = ""Score-2"")"

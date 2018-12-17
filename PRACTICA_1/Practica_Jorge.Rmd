@@ -1,0 +1,121 @@
+---
+title: "Funcion del gradiente"
+author: "Jorge Casan Vazquez"
+date: "23 noviembre 2018"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    number_sections: true
+---
+
+```{r}
+#Load data
+data <- read.csv("4_1_data.csv")
+
+Sigmoid <- function(x) { 
+  1 / (1 + exp(-x))
+}
+
+CostFunction <- function(parameters, X, Y) {
+  n <- nrow(X)
+  # function to apply (%*% Matrix multiplication)
+  g <- Sigmoid(X %*% parameters)
+  J <- (1/n) * sum((-Y * log(g)) - ((1 - Y) * log(1 - g)))
+  return(J)
+}
+
+```
+
+
+```{r}
+
+TestGradientDescent <- function(iterations = 10000, X, Y) {
+  
+  # Initialize (b, W)
+  parameters <- rep(0, ncol(X))
+  # Check evolution
+  print(paste("Initial Cost Function value: ", 
+              convergence <- c(CostFunction(parameters, X, Y)), sep = ""))
+  
+  # updating (b, W) using gradient update
+  
+  # Derive theta using gradient descent using optim function
+  # Look for information about the "optim" function (there are other options)
+  parameters_optimization <- optim(par = parameters, fn = CostFunction, X = X, Y = Y, 
+                                   control = list(maxit = iterations))
+  #set parameters
+  parameters <- parameters_optimization$par
+  
+  # Check evolution
+  print(paste("Final Cost Function value: ", 
+              convergence <- c(CostFunction(parameters, X, Y)), sep = ""))
+
+ return(parameters) 
+}
+```
+
+```{r}
+
+X <- as.matrix(data[, c(1,2)])
+X <- cbind(rep(1, nrow(X)), X)
+Y <- as.matrix(data$label)
+```
+
+
+Ejercicio 1
+
+```{r}
+parameters <- TestGradientDescent(X = X, Y = Y)
+data_clean <- subset(data, select = c(score.1, score.2))
+data_clean <- cbind(initial = 1, data_clean)
+
+dfProb <- 0
+for(i in 1:nrow(data_clean)){
+  res <- Sigmoid(t(as.numeric(data_clean[i,])) %*% parameters)
+  dfProb <- rbind(dfProb, res)
+}
+
+#La primera linea de este dataframe no tiene info
+dfProb <- as.data.frame(dfProb)
+dfProb <- dfProb[-1,]
+
+#Dataframe original + las probabilidades
+data_complete <- cbind(data, prob = dfProb)
+table(data_complete$label, ifelse(data_complete$prob > 0.68, 1, 0))
+```
+
+
+
+Ejercicio 2 - A partir de aproximadamente 300 iteraciones el resultado es estático
+
+```{r}
+it_error <- cbind(0,0)
+colnames(it_error) <- c("Iteraciones","Convergencia")
+
+set.seed(123)
+for (i in seq(1:750)) {
+  parameters <- TestGradientDescent(iterations = i, X = X, Y = Y)
+  convergence <- c(CostFunction(parameters, X, Y))
+  output <- cbind(i,round(convergence,5))
+  colnames(output) <- c("iterations","convergence")
+  it_error <- rbind(it_error,output)
+}
+```
+
+Representación gráfica
+
+```{r}
+library(ggplot2)
+it_error <- as.data.frame(it_error)
+ggplot(it_error,aes(x=it_error$Iteraciones ,y=it_error$Convergencia)) + geom_smooth() + xlab('Iteraciones') + ylab('Convergencia')
+```
+
+
+
+
+
+
+

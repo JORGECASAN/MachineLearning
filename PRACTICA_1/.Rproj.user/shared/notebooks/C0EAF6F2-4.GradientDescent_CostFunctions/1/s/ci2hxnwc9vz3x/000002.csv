@@ -1,0 +1,8 @@
+"0","#Intial parameters"
+"0","initial_parameters <- rep(0, ncol(X))"
+"0","#Cost at inital parameters"
+"0","CostFunction(initial_parameters, X, Y)"
+"1","[1]"
+"1"," 0.6931472"
+"1","
+"

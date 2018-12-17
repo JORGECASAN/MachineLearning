@@ -1,0 +1,6 @@
+"0","# Install if not installed"
+"0","if (!require(""testthat"")) install.packages(""testthat"")"
+"2","Loading required package: testthat
+"
+"0","# load"
+"0","library(testthat)"

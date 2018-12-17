@@ -1,0 +1,6 @@
+"0","#Predictor variables"
+"0","X <- as.matrix(data[, c(1,2)])"
+"0","#Add ones to X in the first column (matrix multiplication x b)"
+"0","X <- cbind(rep(1, nrow(X)), X)"
+"0","#Response variable"
+"0","Y <- as.matrix(data$label)"

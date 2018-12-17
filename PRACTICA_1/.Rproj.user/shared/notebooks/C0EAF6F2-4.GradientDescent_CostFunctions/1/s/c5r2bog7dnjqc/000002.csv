@@ -1,0 +1,5 @@
+"0","if (!require(""gradDescent"")) install.packages(""gradDescent"")"
+"2","Loading required package: gradDescent
+"
+"0","# load"
+"0","library(""gradDescent"")"

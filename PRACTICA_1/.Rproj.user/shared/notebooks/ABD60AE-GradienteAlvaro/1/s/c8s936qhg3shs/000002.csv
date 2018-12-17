@@ -1,0 +1,3 @@
+"0","X <- as.matrix(data[, c(1,2)])"
+"0","X <- cbind(rep(1, nrow(X)), X)"
+"0","Y <- as.matrix(data$label)"

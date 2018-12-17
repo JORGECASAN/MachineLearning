@@ -1,0 +1,7 @@
+"0","Sigmoid <- function(x) { "
+"0","  1 / (1 + exp(-x))"
+"0","}"
+"0","# feed with data"
+"0","x <- seq(-5, 5, 0.01)"
+"0","# and plot"
+"0","plot(x, Sigmoid(x), col='blue', ylim = c(-.2, 1))"
